@@ -7,11 +7,11 @@ from ai_service import get_pet_response
 class PixelPal:
     def __init__(self, name, age=1, hunger=10, happiness=10, energy=10, max_value=10, evo_stage='baby'):
         self.name = name
-        self.age = 1
-        self.hunger = 10
-        self.happiness = 10
-        self.energy = 10
-        self.max_value = 10
+        self.age = age
+        self.hunger = hunger
+        self.happiness = happiness
+        self.energy = energy
+        self.max_value = max_value
         self.hunger_decay = random.randint(1, 2)
         self.happiness_decay = random.randint(1, 4)
         self.energy_decay = random.randint(1, 2)
@@ -25,21 +25,15 @@ class PixelPal:
             "happiness": self.happiness,
             "energy": self.energy,
             "max_value": self.max_value,
-            "evo_stage": self.check_evo()
+            "evo_stage": self.get_stage()
         }
         with open ("save_pet.json", "w") as f:
             json.dump(game_data, f, indent=4)
 
     def check_evo(self):
-        if self.age == 10:
+        if self.age in [10, 20, 30]:
             self.max_value += 10
-            print(f"{self.name} has evolved! Max stats increased.")
-        elif self.age == 20:
-            self.max_value += 10
-            print(f"{self.name} has evolved! Max stats increased.")
-        elif self.age == 30:
-            self.max_value += 10
-            print(f"{self.name} has evolved! Max stats increased.")
+            print(f"{self.name} has evolved! They are now a {self.get_stage()} stage pet!")
 
     def get_stage(self):
         if self.age < 10:
@@ -63,7 +57,7 @@ class PixelPal:
         self.hunger = min(self.max_value, self.hunger + recovery)
         self.happiness = min(self.happiness +3, self.max_value)
         self.energy = min(self.energy + 4, self.max_value)
-        stats_for_ai = {"Hunger": self.hunger, "stage": self.check_evo()}
+        stats_for_ai = {"Hunger": self.hunger, "stage": self.get_stage()}
         ai_voice = get_pet_response(stats_for_ai)
         print(f"{self.name} says: {ai_voice}")
 
@@ -72,7 +66,7 @@ class PixelPal:
         self.happiness = min(self.happiness + recovery, self.max_value)
         self.energy = min(self.energy - 2, self.max_value)
         self.hunger = min(self.hunger - 2, self.max_value)
-        stats_for_ai = {"happiness": self.happiness, "stage": self.check_evo()}
+        stats_for_ai = {"happiness": self.happiness, "stage": self.get_stage()}
         ai_voice = get_pet_response(stats_for_ai)
         print(f"{self.name} says: {ai_voice}")
 
@@ -82,7 +76,7 @@ class PixelPal:
             self.energy = self.max_value
         self.hunger -= 1
         self.happiness += 1
-        stats_for_ai = {"energy": self.energy, "stage": self.check_evo()}
+        stats_for_ai = {"energy": self.energy, "stage": self.get_stage()}
         ai_voice = get_pet_response(stats_for_ai)
         print(f"{self.name} says: {ai_voice}")
 
