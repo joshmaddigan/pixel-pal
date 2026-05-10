@@ -7,9 +7,18 @@
 <body>
     <h1>Welcome to Pixel Pal!</h1>
     <p> Name:{{ name }}</p>
-    <p> Hunger: {{ hunger }}</p>
-    <p> Energy: {{ energy }}</p>
-    <p> Happiness: {{ happiness }}</p>
     <p> Age: {{ age }}</p>
+    <p> Hunger: {{ hunger }}</p>
+    <form action="/feed" method="POST">
+        <button type="submit">Feed</button>
+    </form>
+    <p> Energy: {{ energy }}</p>
+    <form action="/rest" method="POST">
+        <button type="submit">Rest</button>
+    </form>
+    <p> Happiness: {{ happiness }}</p>
+    <form action="/play" method="POST">
+        <button type="submit">Play</button>
+    </form>
 </body>
 </html>

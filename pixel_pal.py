@@ -77,7 +77,7 @@ class PixelPal:
         self.hunger -= 1
         self.happiness += 1
         stats_for_ai = {"energy": self.energy, "stage": self.get_stage()}
-        ai_voice = get_pet_response(stats_for_ai, self.mood, self.mood)
+        ai_voice = get_pet_response(stats_for_ai, self.mood)
         print(f"{self.name} says: {ai_voice}")
 
 if __name__ == "__main__":

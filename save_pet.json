@@ -2,8 +2,8 @@
     "name": "play",
     "age": 6,
     "hunger": 7,
-    "happiness": 9,
-    "energy": 4,
+    "happiness": 11,
+    "energy": 10,
     "max_value": 10,
     "evo_stage": "Baby"
 }
