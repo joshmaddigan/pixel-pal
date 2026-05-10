@@ -1,33 +1,33 @@
-import ollama
+import os
+import anthropic
 import random
+from dotenv import load_dotenv
 
+load_dotenv()
 
-def get_pet_response(pet_stats):
+def get_pet_response(pet_stats, mood):
+    client = anthropic.Anthropic()
     
     personalities = {
         "Sarcastic": "Witty, slightly mean, and unimpressed by the owner",
-        "Excited": "Uses ALL CAPS, super energetic and loves everything.",
+        "Energetic": "Uses ALL CAPS, super energetic and loves everything.",
         "Stoic": "Dramatic, deep, and talks about the 'void' or 'destiny'."
     }
+    mood = random.choice(list(personalities.keys()))
 
-    moods = ["Sarcastic", "Excited", "Stoic"]
-    current_mood = random.choice(moods)
+    prompt = f"""You are a {mood} pixel pet. Your current stats are: {pet_stats}. Respond to the owner in one small sentence, reflecting on your mood and stats.  {personalities[mood]}"""
 
-    prompt = f"""
-You are pixel, a digital pet.
-You current mood is: {current_mood}.
-Current Stats: Hunger: {pet_stats['Hunger']}/10, Stage: {pet_stats['stage']}.
-Write exactly one short sentence reacting to your owner.
-"""
-    
     try:
-        response = ollama.chat(model='gemma4:e2b', messages=[
-            {
-                'role': 'user',
-                'content': prompt,
-                
-            },
-        ])
-        return response['message']['content']
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=100,
+            messages=[
+                {"role": "user", "content": prompt}
+            ]    
+        )
+        return response.content[0].text
     except Exception as e:
-        return "*Pixel is staring into the digital abyss...*"
+        print(f"Error calling AI API: {e}")
+        print("Pixel pet has no thoughts behind those eyes... (Api call fail)")
+        return "..."
+    

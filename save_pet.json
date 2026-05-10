@@ -1,9 +1,9 @@
 {
-    "name": "chud",
-    "age": 10,
-    "hunger": 5,
-    "happiness": 6,
-    "energy": 9,
-    "max_value": 30,
-    "evo_stage": null
+    "name": "play",
+    "age": 6,
+    "hunger": 7,
+    "happiness": 9,
+    "energy": 4,
+    "max_value": 10,
+    "evo_stage": "Baby"
 }

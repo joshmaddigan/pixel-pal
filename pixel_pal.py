@@ -1,4 +1,3 @@
-## Pixel self! ##
 import random
 import os
 import json
@@ -12,6 +11,7 @@ class PixelPal:
         self.happiness = happiness
         self.energy = energy
         self.max_value = max_value
+        self.mood = random.choice(["Sarcastic", "Energetic", "Stoic"])
         self.hunger_decay = random.randint(1, 2)
         self.happiness_decay = random.randint(1, 4)
         self.energy_decay = random.randint(1, 2)
@@ -58,7 +58,7 @@ class PixelPal:
         self.happiness = min(self.happiness +3, self.max_value)
         self.energy = min(self.energy + 4, self.max_value)
         stats_for_ai = {"Hunger": self.hunger, "stage": self.get_stage()}
-        ai_voice = get_pet_response(stats_for_ai)
+        ai_voice = get_pet_response(stats_for_ai, self.mood)
         print(f"{self.name} says: {ai_voice}")
 
     def play(self):
@@ -67,7 +67,7 @@ class PixelPal:
         self.energy = min(self.energy - 2, self.max_value)
         self.hunger = min(self.hunger - 2, self.max_value)
         stats_for_ai = {"happiness": self.happiness, "stage": self.get_stage()}
-        ai_voice = get_pet_response(stats_for_ai)
+        ai_voice = get_pet_response(stats_for_ai, self.mood)
         print(f"{self.name} says: {ai_voice}")
 
     def rest(self):
@@ -77,7 +77,7 @@ class PixelPal:
         self.hunger -= 1
         self.happiness += 1
         stats_for_ai = {"energy": self.energy, "stage": self.get_stage()}
-        ai_voice = get_pet_response(stats_for_ai)
+        ai_voice = get_pet_response(stats_for_ai, self.mood, self.mood)
         print(f"{self.name} says: {ai_voice}")
 
 if __name__ == "__main__":
@@ -113,7 +113,7 @@ if __name__ == "__main__":
             break     
         else:
             print("Invalid action. please choose 'feed', 'play', or 'rest'.") 
-
+        input("Press Enter to continue...")
 
     pal.age += 1
     pal.check_evo()
