@@ -1,10 +1,10 @@
 {
-    "name": "Pixel",
-    "age": 1,
+    "name": "decay",
+    "age": 14,
     "mood": "Stoic",
-    "hunger": 7,
-    "happiness": 11,
-    "energy": 10,
-    "max_value": 10,
-    "evo_stage": "Baby"
+    "hunger": 19,
+    "happiness": 5,
+    "energy": 19,
+    "max_value": 20,
+    "evo_stage": "Teen"
 }

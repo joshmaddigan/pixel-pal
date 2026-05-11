@@ -30,8 +30,12 @@ def feed():
         pal = PixelPal("Pixel")
     response = pal.feed()
     flash(f"{pal.name} says: {response}")
-
-    pal.save_game()
+    pal.tick()
+    if pal.is_dead():
+        flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
+        pal.is_alive = False
+    else:
+        pal.save_game()
     return redirect(url_for("home"))
 
 @app.route("/play", methods=["POST"])
@@ -42,9 +46,9 @@ def play():
         pal = PixelPal(**save_data)
     else:
         pal = PixelPal("Pixel")
-
     response = pal.play()
     flash(f"{pal.name} says: {response}")
+    pal.tick()
     pal.save_game()
     return redirect(url_for("home")) 
 
@@ -56,9 +60,9 @@ def rest():
         pal = PixelPal(**save_data)
     else:
         pal = PixelPal("Pixel")
-
     response = pal.rest()
     flash(f"{pal.name} says: {response}")
+    pal.tick()
     pal.save_game()
     return redirect(url_for("home"))
 
@@ -66,6 +70,25 @@ def rest():
 def quit():
     flash("Game saved. Goodbye!")
     return redirect(url_for("home"))
+
+@app.route("/create", methods=["POST"])
+def create():
+    name = request.form.get("pet_name")
+    if not name:
+        flash("Please enter a name for your PixelPal!")
+        return redirect(url_for("welcome"))
+    pal = PixelPal(name)
+    pal.save_game()
+    flash(f"Your new PixelPal '{name}' has been created!")
+    return redirect(url_for("home"))
+
+@app.route("/death")
+def death():
+    return render_template("death.html")
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

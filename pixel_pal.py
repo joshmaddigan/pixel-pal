@@ -81,6 +81,20 @@ class PixelPal:
         ai_voice = get_pet_response(stats_for_ai, self.mood)
         return ai_voice
 
+    def tick(self):
+        self.age += 1
+        self.check_evo()
+        self.hunger -= self.hunger_decay
+        self.happiness -= self.happiness_decay
+        self.energy -= self.energy_decay
+
+    def is_dead(self):
+        if self.hunger <= 0 or self.happiness <= 0 or self.energy <= 0:
+            self.is_alive = False
+            return True
+        else:
+            return False
+    
 if __name__ == "__main__":
 
     SAVE_FILE = "save_pet.json"
@@ -116,13 +130,7 @@ if __name__ == "__main__":
             print("Invalid action. please choose 'feed', 'play', or 'rest'.") 
         input("Press Enter to continue...")
 
-    pal.age += 1
-    pal.check_evo()
-    pal.hunger -= pal.hunger_decay
-    pal.happiness -= pal.happiness_decay
-    pal.energy -= pal.energy_decay
-    pal.save_game()
-
+        pal.tick()
 
     if pal.hunger <= 0:
         print(f"Sadly, {pal.name} has died of hunger. Take better care of your next self.")
