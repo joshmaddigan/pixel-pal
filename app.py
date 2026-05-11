@@ -84,7 +84,7 @@ def create():
 
 @app.route("/death")
 def death():
-    return render_template("death.html")
+    return render_template("death.html", name=pal.name)
 
 
 
