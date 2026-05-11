@@ -33,7 +33,7 @@ def feed():
     pal.tick()
     if pal.is_dead():
         flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
-        pal.is_alive = False
+        return redirect(url_for("death"))
     else:
         pal.save_game()
     return redirect(url_for("home"))
@@ -48,8 +48,12 @@ def play():
         pal = PixelPal("Pixel")
     response = pal.play()
     flash(f"{pal.name} says: {response}")
-    pal.tick()
-    pal.save_game()
+    if pal.is_dead():
+        flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
+        return redirect(url_for("death"))
+    else:
+        pal.save_game()
+        pal.tick()
     return redirect(url_for("home")) 
 
 @app.route("/rest", methods=["POST"])
@@ -62,8 +66,12 @@ def rest():
         pal = PixelPal("Pixel")
     response = pal.rest()
     flash(f"{pal.name} says: {response}")
-    pal.tick()
-    pal.save_game()
+    if pal.is_dead():
+        flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
+        return redirect(url_for("death"))
+    else:
+        pal.save_game()
+        pal.tick()
     return redirect(url_for("home"))
 
 @app.route("/quit", methods=["POST"])
@@ -84,6 +92,15 @@ def create():
 
 @app.route("/death")
 def death():
+    if os.path.exists("save_pet.json"):
+        with open("save_pet.json", "r") as f:
+            save_data = json.load(f)
+        pal = PixelPal(**save_data)
+    else:
+        pal = PixelPal("Pixel")
+    if os.path.exists("save_pet.json"):
+        os.remove("save_pet.json")
+
     return render_template("death.html", name=pal.name)
 
 
