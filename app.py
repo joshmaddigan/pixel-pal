@@ -1,7 +1,8 @@
-from flask import Flask, render_template,redirect, url_for, request
+from flask import Flask, render_template,redirect, url_for, request, flash
 from pixel_pal import PixelPal
 import os, json
 app = Flask (__name__)
+app.secret_key = os.getenv("SECRET_KEY")
 
 @app.route("/")
 def home():
@@ -21,10 +22,10 @@ def feed():
         with open("save_pet.json", "r") as f:
             save_data = json.load(f)
         pal = PixelPal(**save_data)
-        pal.feed()
     else:
         pal = PixelPal("Pixel")
-        pal.feed()
+    response = pal.feed()
+    flash(f"{pal.name} says: {response}")
 
     pal.save_game()
     return redirect(url_for("home"))
@@ -35,11 +36,11 @@ def play():
         with open("save_pet.json", "r") as f:
             save_data = json.load(f)
         pal = PixelPal(**save_data)
-        pal.play()
     else:
         pal = PixelPal("Pixel")
-        pal.play()
 
+    response = pal.play()
+    flash(f"{pal.name} says: {response}")
     pal.save_game()
     return redirect(url_for("home")) 
 
@@ -49,13 +50,15 @@ def rest():
         with open("save_pet.json", "r") as f:
             save_data = json.load(f)
         pal = PixelPal(**save_data)
-        pal.rest()
     else:
         pal = PixelPal("Pixel")
-        pal.rest()
 
+    response = pal.rest()
+    flash(f"{pal.name} says: {response}")
     pal.save_game()
     return redirect(url_for("home"))
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

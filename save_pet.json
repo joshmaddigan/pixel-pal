@@ -1,6 +1,7 @@
 {
-    "name": "play",
-    "age": 6,
+    "name": "Pixel",
+    "age": 1,
+    "mood": "Stoic",
     "hunger": 7,
     "happiness": 11,
     "energy": 10,
