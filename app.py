@@ -12,9 +12,13 @@ def home():
             save_data = json.load(f)
         pal = PixelPal(**save_data)
     else:
-        pal = PixelPal("Pixel")
+        return redirect(url_for("welcome"))
 
     return render_template("index.html", name=pal.name, hunger=pal.hunger, energy=pal.energy, happiness=pal.happiness, age=pal.age )
+
+@app.route("/welcome")
+def welcome():
+    return render_template("welcome.html")
 
 @app.route("/feed", methods=["POST"])
 def feed():
@@ -58,7 +62,10 @@ def rest():
     pal.save_game()
     return redirect(url_for("home"))
 
-
+@app.route("/quit", methods=["POST"])
+def quit():
+    flash("Game saved. Goodbye!")
+    return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.run(debug=True)
