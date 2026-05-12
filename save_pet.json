@@ -1,10 +1,10 @@
 {
     "name": "balls",
-    "age": 7,
+    "age": 19,
     "mood": "Sarcastic",
-    "hunger": 6,
-    "happiness": 8,
-    "energy": 5,
-    "max_value": 10,
-    "evo_stage": "Baby"
+    "hunger": 4,
+    "happiness": 16,
+    "energy": 19,
+    "max_value": 20,
+    "evo_stage": "Teen"
 }

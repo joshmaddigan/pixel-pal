@@ -12,9 +12,9 @@ class PixelPal:
         self.energy = energy
         self.max_value = max_value
         self.mood = mood if mood else random.choice(["Sarcastic", "Energetic", "Stoic"])
-        self.hunger_decay = random.randint(1, 2)
-        self.happiness_decay = random.randint(1, 4)
-        self.energy_decay = random.randint(1, 2)
+        self.hunger_decay = random.uniform(0.1, 0.15)
+        self.happiness_decay = random.uniform(0.05, 0.20)
+        self.energy_decay = random.uniform(0.05, 0.15)
         self.is_alive = True
 
     def save_game(self):
@@ -84,9 +84,9 @@ class PixelPal:
     def tick(self):
         self.age += 1
         self.check_evo()
-        self.hunger -= self.hunger_decay
-        self.happiness -= self.happiness_decay
-        self.energy -= self.energy_decay
+        self.hunger -= int(self.hunger_decay * self.max_value)
+        self.happiness -= int(self.happiness_decay * self.max_value)
+        self.energy -= int(self.energy_decay * self.max_value)
 
     def is_dead(self):
         if self.hunger <= 0 or self.happiness <= 0 or self.energy <= 0:
