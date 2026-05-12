@@ -11,7 +11,7 @@ class PixelPal:
         self.happiness = happiness
         self.energy = energy
         self.max_value = max_value
-        self.mood = random.choice(["Sarcastic", "Energetic", "Stoic"])
+        self.mood = mood if mood else random.choice(["Sarcastic", "Energetic", "Stoic"])
         self.hunger_decay = random.randint(1, 2)
         self.happiness_decay = random.randint(1, 4)
         self.energy_decay = random.randint(1, 2)
@@ -94,6 +94,10 @@ class PixelPal:
             return True
         else:
             return False
+    
+
+
+
     
 if __name__ == "__main__":
 

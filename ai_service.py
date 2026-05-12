@@ -13,7 +13,6 @@ def get_pet_response(pet_stats, mood):
         "Energetic": "Uses ALL CAPS, super energetic and loves everything.",
         "Stoic": "Dramatic, deep, and talks about the 'void' or 'destiny'."
     }
-    mood = random.choice(list(personalities.keys()))
 
     prompt = f"""You are a {mood} pixel pet. Your current stats are: {pet_stats}. Respond to the owner in one small sentence, reflecting on your mood and stats.  {personalities[mood]}"""
 

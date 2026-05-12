@@ -1,10 +1,10 @@
 {
-    "name": "decay",
-    "age": 14,
-    "mood": "Stoic",
-    "hunger": 19,
-    "happiness": 5,
-    "energy": 19,
-    "max_value": 20,
-    "evo_stage": "Teen"
+    "name": "balls",
+    "age": 7,
+    "mood": "Sarcastic",
+    "hunger": 6,
+    "happiness": 8,
+    "energy": 5,
+    "max_value": 10,
+    "evo_stage": "Baby"
 }

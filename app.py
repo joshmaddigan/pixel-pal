@@ -48,12 +48,12 @@ def play():
         pal = PixelPal("Pixel")
     response = pal.play()
     flash(f"{pal.name} says: {response}")
+    pal.tick()
     if pal.is_dead():
         flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
         return redirect(url_for("death"))
     else:
         pal.save_game()
-        pal.tick()
     return redirect(url_for("home")) 
 
 @app.route("/rest", methods=["POST"])
@@ -66,12 +66,12 @@ def rest():
         pal = PixelPal("Pixel")
     response = pal.rest()
     flash(f"{pal.name} says: {response}")
+    pal.tick()
     if pal.is_dead():
         flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
         return redirect(url_for("death"))
     else:
         pal.save_game()
-        pal.tick()
     return redirect(url_for("home"))
 
 @app.route("/quit", methods=["POST"])
