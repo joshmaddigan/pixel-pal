@@ -28,11 +28,12 @@ def feed():
         pal = PixelPal(**save_data)
     else:
         pal = PixelPal("Pixel")
-    response = pal.feed()
-    flash(f"{pal.name} says: {response}")
+        response = pal.feed()
+        flash(f"{pal.name} says: {response}")
     pal.tick()
-    if pal.is_dead():
-        flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
+    death_cause = pal.is_dead()
+    if death_cause:
+        flash(death_cause)
         return redirect(url_for("death"))
     else:
         pal.save_game()
@@ -46,11 +47,12 @@ def play():
         pal = PixelPal(**save_data)
     else:
         pal = PixelPal("Pixel")
-    response = pal.play()
-    flash(f"{pal.name} says: {response}")
+        response = pal.play()
+        flash(f"{pal.name} says: {response}")
     pal.tick()
-    if pal.is_dead():
-        flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
+    death_cause = pal.is_dead()
+    if death_cause:
+        flash(death_cause)
         return redirect(url_for("death"))
     else:
         pal.save_game()
@@ -64,11 +66,12 @@ def rest():
         pal = PixelPal(**save_data)
     else:
         pal = PixelPal("Pixel")
-    response = pal.rest()
-    flash(f"{pal.name} says: {response}")
+        response = pal.rest()
+        flash(f"{pal.name} says: {response}")
     pal.tick()
-    if pal.is_dead():
-        flash(f"Sadly, {pal.name} has passed away. Please take better care next time!")
+    death_cause = pal.is_dead()
+    if death_cause:
+        flash(death_cause)
         return redirect(url_for("death"))
     else:
         pal.save_game()

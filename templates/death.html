@@ -5,7 +5,9 @@
 </head>
 <body>
     <h1>RIP {{ name }}</h1>
-    <p>Sadly, {{ name }} has passed away. Please take better care next time!</p>
+       {% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+{% endfor %}   
     <form action="/welcome" method="GET">
         <button type="submit">Start a new Pal</button>
     </form>

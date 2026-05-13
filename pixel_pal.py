@@ -54,29 +54,25 @@ class PixelPal:
         return f'{stat_name:10}: [{bar}] {clamped_val}/{max_value}'
 
     def feed(self):
-        recovery = int(self.max_value * 0.7)
-        self.hunger = min(self.max_value, self.hunger + recovery)
-        self.happiness = min(self.happiness +3, self.max_value)
-        self.energy = min(self.energy + 4, self.max_value)
+        self.hunger = int(min(self.max_value, self.hunger + random.uniform(0.2, 0.3) * self.max_value))
+        self.happiness = int(min(self.max_value, self.happiness + random.uniform(0.1, 0.2) * self.max_value))
+        self.energy = int(min(self.max_value, self.energy + random.uniform(0.1, 0.2) * self.max_value))
         stats_for_ai = {"Hunger": self.hunger, "stage": self.get_stage()}
         ai_voice = get_pet_response(stats_for_ai, self.mood)
         return ai_voice
     
     def play(self):
-        recovery = int(self.max_value * 0.6)
-        self.happiness = min(self.happiness + recovery, self.max_value)
-        self.energy = min(self.energy - 2, self.max_value)
-        self.hunger = min(self.hunger - 2, self.max_value)
+        self.happiness = int(min(self.max_value, self.happiness + random.uniform(0.2, 0.3) * self.max_value))
+        self.energy = int(min(self.max_value, self.energy - random.uniform(0.1, 0.2) * self.max_value))
+        self.hunger = int(min(self.max_value, self.hunger - random.uniform(0.1, 0.2) * self.max_value))
         stats_for_ai = {"happiness": self.happiness, "stage": self.get_stage()}
         ai_voice = get_pet_response(stats_for_ai, self.mood)
         return ai_voice
     
     def rest(self):
-        self.energy += 7
-        if self.energy > self.max_value:
-            self.energy = self.max_value
-        self.hunger -= 1
-        self.happiness += 1
+        self.energy = int(min(self.max_value, self.energy + random.uniform(0.2, 0.3) * self.max_value))
+        self.hunger = int(min(self.max_value, self.hunger - random.uniform(0.1, 0.2) * self.max_value))
+        self.happiness = int(min(self.max_value, self.happiness + random.uniform(0.1, 0.2) * self.max_value))
         stats_for_ai = {"energy": self.energy, "stage": self.get_stage()}
         ai_voice = get_pet_response(stats_for_ai, self.mood)
         return ai_voice
@@ -89,9 +85,12 @@ class PixelPal:
         self.energy -= int(self.energy_decay * self.max_value)
 
     def is_dead(self):
-        if self.hunger <= 0 or self.happiness <= 0 or self.energy <= 0:
-            self.is_alive = False
-            return True
+        if self.hunger <= 0:
+            return (f"Sadly, {self.name} starved to death. Please feed you pal better next time!")
+        elif self.happiness <= 0:
+            return (f"Sadly, {self.name} died of sadness. Please play with your pal more next time!")
+        elif self.energy <= 0:
+            return (f"Sadly, {self.name} died of exhaustion. Please let your pal rest more next time!")
         else:
             return False
     
