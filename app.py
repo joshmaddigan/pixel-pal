@@ -13,8 +13,12 @@ def home():
         pal = PixelPal(**save_data)
     else:
         return redirect(url_for("welcome"))
+    can_feed = pal.hunger < pal.max_value * 0.6
+    can_play = pal.happiness < pal.max_value * 0.5
+    can_rest = pal.energy < pal.max_value * 0.9
 
-    return render_template("index.html", name=pal.name, hunger=pal.hunger, energy=pal.energy, happiness=pal.happiness, age=pal.age )
+    return render_template("index.html", name=pal.name, hunger=pal.hunger, energy=pal.energy, happiness=pal.happiness,
+                             age=pal.age, can_feed=can_feed, can_play=can_play, can_rest=can_rest)
 
 @app.route("/welcome")
 def welcome():
@@ -28,8 +32,9 @@ def feed():
         pal = PixelPal(**save_data)
     else:
         pal = PixelPal("Pixel")
-        response = pal.feed()
-        flash(f"{pal.name} says: {response}")
+
+    response = pal.feed()
+    flash(f"{pal.name} says: {response}")
     pal.tick()
     death_cause = pal.is_dead()
     if death_cause:
@@ -47,8 +52,9 @@ def play():
         pal = PixelPal(**save_data)
     else:
         pal = PixelPal("Pixel")
-        response = pal.play()
-        flash(f"{pal.name} says: {response}")
+
+    response = pal.play()
+    flash(f"{pal.name} says: {response}")
     pal.tick()
     death_cause = pal.is_dead()
     if death_cause:
@@ -66,8 +72,9 @@ def rest():
         pal = PixelPal(**save_data)
     else:
         pal = PixelPal("Pixel")
-        response = pal.rest()
-        flash(f"{pal.name} says: {response}")
+
+    response = pal.rest()
+    flash(f"{pal.name} says: {response}")
     pal.tick()
     death_cause = pal.is_dead()
     if death_cause:

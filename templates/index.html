@@ -9,17 +9,42 @@
     <p> Name:{{ name }}</p>
     <p> Age: {{ age }}</p>
     <p> Hunger: {{ hunger }}</p>
-    <form action="/feed" method="POST">
-        <button type="submit">Feed</button>
+
+       {% if not can_feed: %}
+            <form action="/feed" method="POST">
+                <button type="submit">Feed</button>
+            </form>
+
+        {% else %}
+            <button type="submit" disabled>Feed</button>
+            <p> {{ name }} is not hungry! try playing with or feeding them!</p>
+
+        {% endif %}
     </form>
+    
+
     <p> Energy: {{ energy }}</p>
-    <form action="/rest" method="POST">
-        <button type="submit">Rest</button>
-    </form>
+    {% if can_rest %}
+        <button type="submit" disabled>Rest</button>
+        <p> {{ name }} is not tired! try playing with or feeding them!</p>
+    {% else %}
+        <form action="/rest" method="POST">
+            <button type="submit">Rest</button>
+        </form>
+    {% endif %}
+
+
     <p> Happiness: {{ happiness }}</p>
-    <form action="/play" method="POST">
-        <button type="submit">Play</button>
-    </form>
+        {% if can_play %}
+        <button type="submit" disabled>Play</button>
+        <p> {{ name }} is too tired to play! try resting or feeding them!</p>
+    {% else %}
+        <form action="/play" method="POST">
+            <button type="submit">Play</button>
+        </form>
+    {% endif %}
+
+
     {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
 {% endfor %}

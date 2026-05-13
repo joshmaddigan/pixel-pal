@@ -1,0 +1,10 @@
+{
+    "name": "timmah",
+    "age": 19,
+    "mood": "Energetic",
+    "hunger": 18,
+    "happiness": 18,
+    "energy": 18,
+    "max_value": 20,
+    "evo_stage": "Teen"
+}

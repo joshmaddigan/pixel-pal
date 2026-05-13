@@ -54,7 +54,8 @@ class PixelPal:
         return f'{stat_name:10}: [{bar}] {clamped_val}/{max_value}'
 
     def feed(self):
-        self.hunger = int(min(self.max_value, self.hunger + random.uniform(0.2, 0.3) * self.max_value))
+        recovery = int(self.max_value * 0.7)
+        self.hunger = int(min(self.max_value, self.hunger + recovery))
         self.happiness = int(min(self.max_value, self.happiness + random.uniform(0.1, 0.2) * self.max_value))
         self.energy = int(min(self.max_value, self.energy + random.uniform(0.1, 0.2) * self.max_value))
         stats_for_ai = {"Hunger": self.hunger, "stage": self.get_stage()}
@@ -62,7 +63,8 @@ class PixelPal:
         return ai_voice
     
     def play(self):
-        self.happiness = int(min(self.max_value, self.happiness + random.uniform(0.2, 0.3) * self.max_value))
+        recovery = int(self.max_value * 0.7)
+        self.happiness = int(min(self.max_value, self.happiness + recovery))
         self.energy = int(min(self.max_value, self.energy - random.uniform(0.1, 0.2) * self.max_value))
         self.hunger = int(min(self.max_value, self.hunger - random.uniform(0.1, 0.2) * self.max_value))
         stats_for_ai = {"happiness": self.happiness, "stage": self.get_stage()}
@@ -70,7 +72,8 @@ class PixelPal:
         return ai_voice
     
     def rest(self):
-        self.energy = int(min(self.max_value, self.energy + random.uniform(0.2, 0.3) * self.max_value))
+        recovery = int(self.max_value * 0.7)
+        self.energy = int(min(self.max_value, self.energy + recovery))
         self.hunger = int(min(self.max_value, self.hunger - random.uniform(0.1, 0.2) * self.max_value))
         self.happiness = int(min(self.max_value, self.happiness + random.uniform(0.1, 0.2) * self.max_value))
         stats_for_ai = {"energy": self.energy, "stage": self.get_stage()}
