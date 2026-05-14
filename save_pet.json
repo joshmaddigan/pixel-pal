@@ -1,10 +1,10 @@
 {
-    "name": "timmah",
-    "age": 19,
-    "mood": "Energetic",
-    "hunger": 18,
-    "happiness": 18,
-    "energy": 18,
-    "max_value": 20,
-    "evo_stage": "Teen"
+    "name": "dorkus",
+    "age": 4,
+    "mood": "Sarcastic",
+    "hunger": 1,
+    "happiness": 10,
+    "energy": 2,
+    "max_value": 10,
+    "evo_stage": "Baby"
 }

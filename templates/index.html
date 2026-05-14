@@ -1,28 +1,24 @@
-<div class="container">
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Document</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>Welcome to Pixel Pal!</h1>
+    <div class="container">
+    
+        <div class="game-panel">
+        <h1>Welcome to Pixel Pal!</h1>
     <p> Name:{{ name }}</p>
     <p> Age: {{ age }}</p>
     <p> Hunger: {{ hunger }}</p>
-
        {% if not can_feed: %}
             <form action="/feed" method="POST">
                 <button type="submit">Feed</button>
             </form>
-
         {% else %}
             <button type="submit" disabled>Feed</button>
             <p> {{ name }} is not hungry! try playing with or feeding them!</p>
-
-        {% endif %}
-    </form>
-    
+        {% endif %}  
 
     <p> Energy: {{ energy }}</p>
     {% if can_rest %}
@@ -34,7 +30,6 @@
         </form>
     {% endif %}
 
-
     <p> Happiness: {{ happiness }}</p>
         {% if can_play %}
         <button type="submit" disabled>Play</button>
@@ -45,10 +40,14 @@
         </form>
     {% endif %}
 
-
     {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
 {% endfor %}
+    </div>
+
+        <div class="sprite-panel">
+        <img src="/static/sprites/{{ get_sprite }}" alt="PixelPal">
+    </div>
+</div>
 </body>
 </html>
-</div>

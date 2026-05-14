@@ -13,12 +13,14 @@ def home():
         pal = PixelPal(**save_data)
     else:
         return redirect(url_for("welcome"))
-    can_feed = pal.hunger < pal.max_value * 0.6
-    can_play = pal.happiness < pal.max_value * 0.5
+    can_feed = pal.hunger < pal.max_value * 0.8
+    can_play = pal.happiness < pal.max_value * 0.9
     can_rest = pal.energy < pal.max_value * 0.9
+    get_sprite = pal.get_sprite()
+    print(pal.get_sprite())
 
     return render_template("index.html", name=pal.name, hunger=pal.hunger, energy=pal.energy, happiness=pal.happiness,
-                             age=pal.age, can_feed=can_feed, can_play=can_play, can_rest=can_rest)
+                             age=pal.age, can_feed=can_feed, can_play=can_play, can_rest=can_rest, get_sprite=pal.get_sprite())
 
 @app.route("/welcome")
 def welcome():

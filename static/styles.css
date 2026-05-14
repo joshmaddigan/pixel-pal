@@ -31,3 +31,8 @@ button:hover {
     background-color: #eee;
     color: #1a1a2e;
 }
+
+.sprite-panel img {
+    width 200px;
+    image-rendering: pixelated
+}

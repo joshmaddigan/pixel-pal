@@ -87,6 +87,20 @@ class PixelPal:
         self.happiness -= int(self.happiness_decay * self.max_value)
         self.energy -= int(self.energy_decay * self.max_value)
 
+    def get_sprite(self):
+        if self.hunger < self.max_value * 0.5 and self.happiness < self.max_value * 0.5 and self.energy < self.max_value * 0.5:
+            return "pal_sick.png"
+        elif self.hunger < self.max_value * 0.5:
+            return "pal_hungry.png"
+        elif self.happiness < self.max_value * 0.5:
+            return "pal_tired.png"
+        elif self.energy < self.max_value * 0.5:
+            return "pal_tired.png"
+        elif self.hunger > self.max_value * 0.7 and self.happiness > self.max_value * 0.7 and self.energy > self.max_value * 0.7:
+            return "pal_happy.png"
+        else: 
+            return "pal_neutral.png"
+
     def is_dead(self):
         if self.hunger <= 0:
             return (f"Sadly, {self.name} starved to death. Please feed you pal better next time!")
