@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 from pixel_pal import PixelPal
 from database import db, Pet
 import os
@@ -17,7 +17,10 @@ with app.app_context():
 
 
 def load_pal():
-    pet = Pet.query.first()
+    pet_id = session.get('pet_id')
+    if not pet_id:
+        return None
+    pet = db.session.get(Pet, pet_id)
     if not pet:
         return None
     return PixelPal(
@@ -33,7 +36,8 @@ def load_pal():
 
 
 def save_pal(pal):
-    pet = Pet.query.first()
+    pet_id = session.get('pet_id')
+    pet = db.session.get(Pet, pet_id) if pet_id else None
     if pet:
         pet.name = pal.name
         pet.age = pal.age
@@ -55,6 +59,8 @@ def save_pal(pal):
             evo_stage=pal.get_stage()
         )
         db.session.add(pet)
+        db.session.flush()
+        session['pet_id'] = pet.id
     db.session.commit()
 
 
@@ -150,7 +156,8 @@ def create():
 
 @app.route("/death")
 def death():
-    pet = Pet.query.first()
+    pet_id = session.pop('pet_id', None)
+    pet = db.session.get(Pet, pet_id) if pet_id else None
     name = pet.name if pet else "Pixel"
     if pet:
         db.session.delete(pet)
