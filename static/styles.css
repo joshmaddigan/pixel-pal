@@ -37,6 +37,6 @@ button:hover {
 }
 
 .sprite-panel img {
-    width 200px;
-    image-rendering: pixelated
+    width: 200px;
+    image-rendering: pixelated;
 }

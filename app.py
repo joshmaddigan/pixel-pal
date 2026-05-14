@@ -1,40 +1,84 @@
-from flask import Flask, render_template,redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash
 from pixel_pal import PixelPal
-import os, json
-app = Flask (__name__)
+from database import db, Pet
+import os
+
+app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
+
+database_url = os.getenv("DATABASE_URL", "sqlite:///pixelpal.db")
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+
+db.init_app(app)
+with app.app_context():
+    db.create_all()
+
+
+def load_pal():
+    pet = Pet.query.first()
+    if not pet:
+        return None
+    return PixelPal(
+        name=pet.name,
+        age=pet.age,
+        mood=pet.mood,
+        hunger=pet.hunger,
+        happiness=pet.happiness,
+        energy=pet.energy,
+        max_value=pet.max_value,
+        evo_stage=pet.evo_stage
+    )
+
+
+def save_pal(pal):
+    pet = Pet.query.first()
+    if pet:
+        pet.name = pal.name
+        pet.age = pal.age
+        pet.mood = pal.mood
+        pet.hunger = pal.hunger
+        pet.happiness = pal.happiness
+        pet.energy = pal.energy
+        pet.max_value = pal.max_value
+        pet.evo_stage = pal.get_stage()
+    else:
+        pet = Pet(
+            name=pal.name,
+            age=pal.age,
+            mood=pal.mood,
+            hunger=pal.hunger,
+            happiness=pal.happiness,
+            energy=pal.energy,
+            max_value=pal.max_value,
+            evo_stage=pal.get_stage()
+        )
+        db.session.add(pet)
+    db.session.commit()
+
 
 @app.route("/")
 def home():
-    SAVE_FILE = "save_pet.json"
-    if os.path.exists(SAVE_FILE):
-        with open (SAVE_FILE, "r") as f:
-            save_data = json.load(f)
-        pal = PixelPal(**save_data)
-    else:
+    pal = load_pal()
+    if not pal:
         return redirect(url_for("welcome"))
-    can_feed = pal.hunger < pal.max_value * 0.8
-    can_play = pal.happiness < pal.max_value * 0.9
-    can_rest = pal.energy < pal.max_value * 0.9
-    get_sprite = pal.get_sprite()
-    print(pal.get_sprite())
+    can_feed = pal.hunger >= pal.max_value * 0.8
+    can_play = pal.happiness >= pal.max_value * 0.9
+    can_rest = pal.energy >= pal.max_value * 0.9
+    return render_template("index.html", name=pal.name, hunger=pal.hunger, energy=pal.energy,
+                           happiness=pal.happiness, age=pal.age, can_feed=can_feed,
+                           can_play=can_play, can_rest=can_rest, get_sprite=pal.get_sprite())
 
-    return render_template("index.html", name=pal.name, hunger=pal.hunger, energy=pal.energy, happiness=pal.happiness,
-                             age=pal.age, can_feed=can_feed, can_play=can_play, can_rest=can_rest, get_sprite=pal.get_sprite())
 
 @app.route("/welcome")
 def welcome():
     return render_template("welcome.html")
 
+
 @app.route("/feed", methods=["POST"])
 def feed():
-    if os.path.exists("save_pet.json"):
-        with open("save_pet.json", "r") as f:
-            save_data = json.load(f)
-        pal = PixelPal(**save_data)
-    else:
-        pal = PixelPal("Pixel")
-
+    pal = load_pal() or PixelPal("Pixel")
     response = pal.feed()
     flash(f"{pal.name} says: {response}")
     pal.tick()
@@ -42,19 +86,13 @@ def feed():
     if death_cause:
         flash(death_cause)
         return redirect(url_for("death"))
-    else:
-        pal.save_game()
+    save_pal(pal)
     return redirect(url_for("home"))
+
 
 @app.route("/play", methods=["POST"])
 def play():
-    if os.path.exists("save_pet.json"):
-        with open("save_pet.json", "r") as f:
-            save_data = json.load(f)
-        pal = PixelPal(**save_data)
-    else:
-        pal = PixelPal("Pixel")
-
+    pal = load_pal() or PixelPal("Pixel")
     response = pal.play()
     flash(f"{pal.name} says: {response}")
     pal.tick()
@@ -62,19 +100,13 @@ def play():
     if death_cause:
         flash(death_cause)
         return redirect(url_for("death"))
-    else:
-        pal.save_game()
-    return redirect(url_for("home")) 
+    save_pal(pal)
+    return redirect(url_for("home"))
+
 
 @app.route("/rest", methods=["POST"])
 def rest():
-    if os.path.exists("save_pet.json"):
-        with open("save_pet.json", "r") as f:
-            save_data = json.load(f)
-        pal = PixelPal(**save_data)
-    else:
-        pal = PixelPal("Pixel")
-
+    pal = load_pal() or PixelPal("Pixel")
     response = pal.rest()
     flash(f"{pal.name} says: {response}")
     pal.tick()
@@ -82,14 +114,27 @@ def rest():
     if death_cause:
         flash(death_cause)
         return redirect(url_for("death"))
-    else:
-        pal.save_game()
+    save_pal(pal)
     return redirect(url_for("home"))
+
+
+@app.route("/idle", methods=["POST"])
+def idle():
+    pal = load_pal() or PixelPal("Pixel")
+    pal.tick()
+    death_cause = pal.is_dead()
+    if death_cause:
+        flash(death_cause)
+        return redirect(url_for("death"))
+    save_pal(pal)
+    return redirect(url_for("home"))
+
 
 @app.route("/quit", methods=["POST"])
 def quit():
     flash("Game saved. Goodbye!")
     return redirect(url_for("home"))
+
 
 @app.route("/create", methods=["POST"])
 def create():
@@ -98,25 +143,19 @@ def create():
         flash("Please enter a name for your PixelPal!")
         return redirect(url_for("welcome"))
     pal = PixelPal(name)
-    pal.save_game()
+    save_pal(pal)
     flash(f"Your new PixelPal '{name}' has been created!")
     return redirect(url_for("home"))
 
+
 @app.route("/death")
 def death():
-    if os.path.exists("save_pet.json"):
-        with open("save_pet.json", "r") as f:
-            save_data = json.load(f)
-        pal = PixelPal(**save_data)
-    else:
-        pal = PixelPal("Pixel")
-    if os.path.exists("save_pet.json"):
-        os.remove("save_pet.json")
-
-    return render_template("death.html", name=pal.name)
-
-
-
+    pet = Pet.query.first()
+    name = pet.name if pet else "Pixel"
+    if pet:
+        db.session.delete(pet)
+        db.session.commit()
+    return render_template("death.html", name=name)
 
 
 if __name__ == "__main__":

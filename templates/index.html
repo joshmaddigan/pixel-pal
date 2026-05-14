@@ -11,14 +11,14 @@
     <p> Name:{{ name }}</p>
     <p> Age: {{ age }}</p>
     <p> Hunger: {{ hunger }}</p>
-       {% if not can_feed: %}
-            <form action="/feed" method="POST">
-                <button type="submit">Feed</button>
-            </form>
-        {% else %}
+        {% if can_feed %}
             <button type="submit" disabled>Feed</button>
             <p> {{ name }} is not hungry! <br>
                 Try playing with or resting them!</p>
+        {% else %}
+            <form action="/feed" method="POST">
+                <button type="submit">Feed</button>
+            </form>
         {% endif %}  
 
     <p> Energy: {{ energy }}</p>
@@ -42,6 +42,10 @@
             <button type="submit">Play</button>
         </form>
     {% endif %}
+
+    <form action="/idle" method="POST">
+        <button type="submit">Do Nothing</button>
+    </form>
 
     {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
