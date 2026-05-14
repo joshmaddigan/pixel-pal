@@ -1,20 +1,26 @@
 # Pixel Pal 🐾
 
-A modernised take on the classic Tamagotchi — a digital pet you can feed, play with, and put to rest, now with AI-powered attitude!
+A modernised take on the classic Tamagotchi — a digital pet you can feed, play with, 
+and put to rest, now with AI-powered attitude!
 
-## How to Run
+## Play Now
+👉 [pixel-pal.up.railway.app](https://pixel-pal.up.railway.app) *(update with real URL)*
 
-Requires Python 3 and Ollama running locally.
+No setup required — just visit the site and meet your new pal.
 
-1. Download and install [Ollama](https://ollama.com)
-2. Pull the model: `ollama pull gemma4:e2b`
-3. Clone this repo
-4. Install the Python package: `pip install ollama`
-5. Run: `python pixel_pal.py`
-> Browser version coming soon!
+## Features
+
+- **Feed, play, and rest** your pet to keep it happy
+- **Dynamic moods** that shift based on hunger, energy, and happiness levels
+- **Animated sprites** that reflect your pet's current state — including special 
+sprites when stats are critically low or maxed out
+- **AI-powered responses** via the Claude API — your pet has opinions
 
 ## What I Learned
 
 - Object-oriented programming with classes and instance methods
 - File I/O and JSON save states
-- Integrating a local AI model for dynamic pet responses
+- Integrating AI APIs for dynamic pet responses
+- Web app development with Flask
+- Frontend basics — HTML and CSS
+- Cloud deployment with Railway

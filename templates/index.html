@@ -17,13 +17,15 @@
             </form>
         {% else %}
             <button type="submit" disabled>Feed</button>
-            <p> {{ name }} is not hungry! try playing with or feeding them!</p>
+            <p> {{ name }} is not hungry! <br>
+                Try playing with or resting them!</p>
         {% endif %}  
 
     <p> Energy: {{ energy }}</p>
     {% if can_rest %}
         <button type="submit" disabled>Rest</button>
-        <p> {{ name }} is not tired! try playing with or feeding them!</p>
+        <p> {{ name }} is not tired! <br>
+            Try playing with or feeding them!</p>
     {% else %}
         <form action="/rest" method="POST">
             <button type="submit">Rest</button>
@@ -33,7 +35,8 @@
     <p> Happiness: {{ happiness }}</p>
         {% if can_play %}
         <button type="submit" disabled>Play</button>
-        <p> {{ name }} is too tired to play! try resting or feeding them!</p>
+        <p> {{ name }} is too tired to play! <br>
+            Try resting or feeding them!</p>
     {% else %}
         <form action="/play" method="POST">
             <button type="submit">Play</button>
