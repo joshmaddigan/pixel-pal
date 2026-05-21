@@ -74,7 +74,7 @@ def home():
     can_rest = pal.energy >= pal.max_value * 0.9
     return render_template("index.html", name=pal.name, hunger=pal.hunger, energy=pal.energy,
                            happiness=pal.happiness, age=pal.age, can_feed=can_feed,
-                           can_play=can_play, can_rest=can_rest, get_sprite=pal.get_sprite())
+                           can_play=can_play, can_rest=can_rest, get_sprite=pal.get_sprite(), evo_stage=pal.get_stage())
 
 
 @app.route("/welcome")
