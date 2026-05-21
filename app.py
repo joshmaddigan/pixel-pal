@@ -123,6 +123,18 @@ def rest():
     save_pal(pal)
     return redirect(url_for("home"))
 
+@app.route("/talk", methods=["POST"])
+def talk():
+    pal = load_pal() or PixelPal("Pixel")
+    response = pal.talk()
+    flash(f"{pal.name} says: {response}")
+    pal.tick()
+    death_cause = pal.is_dead()
+    if death_cause:
+        flash(death_cause)
+        return redirect(url_for("death"))
+    save_pal(pal)
+    return redirect(url_for("home"))
 
 @app.route("/idle", methods=["POST"])
 def idle():

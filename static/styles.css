@@ -16,6 +16,10 @@ body {
         margin-bottom: 20px;
     }
 
+    p {
+        line-height: 1.5;
+    }
+
 .container {
     display: flex;
     gap: 40px;

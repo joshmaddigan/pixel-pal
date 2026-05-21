@@ -51,14 +51,20 @@
     {% endif %}
     </div>  
 
-    {% for message in get_flashed_messages() %}
-    <p>{{ message }}</p>
-{% endfor %}
     </div>
+
+    <form action="/talk" method="POST">
+    <button type="submit">Talk</button>
+    </form>
+
+
 
         <div class="sprite-panel">
         <img src="/static/sprites/{{ get_sprite }}" alt="PixelPal">
-        </div>
+            {% for message in get_flashed_messages() %}
+    <p>{{ message }}</p>
+    {% endfor %}
+    </div>
         <form action="/idle" method="POST">
         <button type="submit" class="nothing-btn">Do Nothing</button>
     </form>

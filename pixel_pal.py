@@ -1,7 +1,7 @@
 import random
 import os
 import json
-from ai_service import get_pet_response
+from ai_service import get_pet_response, get_talk_response
 
 class PixelPal:
     def __init__(self, name, age=1, hunger=10, happiness=10, energy=10, max_value=10, evo_stage='baby', mood=None):
@@ -111,8 +111,10 @@ class PixelPal:
         else:
             return False
     
-
-
+    def talk(self):
+        stats_for_ai = {"Hunger": self.hunger, "stage": self.get_stage()}
+        ai_voice = get_talk_response(stats_for_ai, self.mood)        
+        return ai_voice
 
     
 if __name__ == "__main__":
