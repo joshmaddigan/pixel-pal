@@ -12,41 +12,44 @@
     <p> Age: {{ age }}</p>
     <p> Stage: {{ evo_stage }}</p>
     <p> Hunger: {{ hunger }}</p>
-        {% if can_feed %}
+    <p> Energy: {{ energy }}</p>
+    <p> Happiness: {{ happiness }}</p>
+
+<div class ="button-row">
+         <div>
+            {% if can_feed %}
             <button type="submit" disabled>Feed</button>
-            <p> {{ name }} is not hungry! <br>
-                Try playing with or resting them!</p>
+            <p> {{ name }} is<br>
+                not hungry!</p>
         {% else %}
             <form action="/feed" method="POST">
                 <button type="submit">Feed</button>
             </form>
         {% endif %}  
-
-    <p> Energy: {{ energy }}</p>
+        </div>
+    <div>
     {% if can_rest %}
         <button type="submit" disabled>Rest</button>
-        <p> {{ name }} is not tired! <br>
-            Try playing with or feeding them!</p>
+        <p> {{ name }} is<br>
+            not tired!</p>
     {% else %}
         <form action="/rest" method="POST">
             <button type="submit">Rest</button>
         </form>
     {% endif %}
-
-    <p> Happiness: {{ happiness }}</p>
+</div>
+<div>
         {% if can_play %}
         <button type="submit" disabled>Play</button>
-        <p> {{ name }} is too tired to play! <br>
-            Try resting or feeding them!</p>
+        <p> {{ name }} is <br>
+            too tired <br>
+            to play!</p>
     {% else %}
         <form action="/play" method="POST">
             <button type="submit">Play</button>
         </form>
     {% endif %}
-
-    <form action="/idle" method="POST">
-        <button type="submit">Do Nothing</button>
-    </form>
+    </div>  
 
     {% for message in get_flashed_messages() %}
     <p>{{ message }}</p>
@@ -55,6 +58,9 @@
 
         <div class="sprite-panel">
         <img src="/static/sprites/{{ get_sprite }}" alt="PixelPal">
+        <form action="/idle" method="POST">
+        <button type="submit" class="nothing-btn">Do Nothing</button>
+    </form>
     </div>
 </div>
 </body>
