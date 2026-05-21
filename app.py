@@ -160,13 +160,6 @@ def idle():
     save_pal(pal)
     return redirect(url_for("home"))
 
-
-@app.route("/quit", methods=["POST"])
-def quit():
-    flash("Game saved. Goodbye!")
-    return redirect(url_for("home"))
-
-
 @app.route("/create", methods=["POST"])
 def create():
     name = request.form.get("pet_name")

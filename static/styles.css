@@ -36,8 +36,13 @@ body {
 .nothing-btn{
     font-size: 6px;
     padding: 4px;
-
 }
+
+#save-modal {
+    display: none; /* Hidden by default */
+}
+
+
 button {
     font-family: 'Press Start 2P', cursive;
     background-color: #16213e;

@@ -72,7 +72,23 @@
         <form action="/idle" method="POST">
         <button type="submit" class="nothing-btn">Do Nothing</button>
     </form>
-
+    <button id="open-modal">Save & Quit</button>
 </div>
+    <div id="save-modal">
+    <div id="modal-content">
+        <h2>Game Saved!</h2>
+        <p>Your pal is safe!</p>
+        <button id="close-modal">Close</button>
+    </div>
+    </div> 
+<script>
+    document.getElementById("open-modal").onclick = function() {
+    document.getElementById("save-modal").style.display = "block";
+    };
+
+    document.getElementById("close-modal").onclick = function() {
+    document.getElementById("save-modal").style.display = "none";
+    };
+</script>
 </body>
 </html>
